@@ -24,13 +24,12 @@ public class RandomErrors {
     return str.toString();
   }
 
-  public String addErrors(String str, int aNrOfErrors) {
+  public String addErrors(String aStr, int aNrOfErrors) {
     for(int i = 0; i < aNrOfErrors; ++i) {
-      if(random.nextFloat() > 0.5) str = getRandomOperation().apply(str);
-      if(random.nextFloat() > 0.5) str = getRandomOperation().apply(str);
-      if(random.nextFloat() > 0.5) str = getRandomOperation().apply(str);
+      if(aStr.length() == 0) break;
+      aStr = getRandomOperation().apply(aStr);
     }
-    return str;
+    return aStr;
   }
 
   public String addRandomOperation(String aStr) {

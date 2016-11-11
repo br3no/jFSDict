@@ -1,5 +1,6 @@
 package de.reffle.jFSDict.levenshtein;
 
+import java.util.Random;
 import java.util.logging.Logger;
 
 import org.junit.Test;
@@ -80,12 +81,13 @@ public class LevFSATest {
 
   @Test
   public void randomTest() throws Exception {
-    RandomErrors randomErrors = new RandomErrors();
+    Random random = new Random(42);
+    RandomErrors randomErrors = new RandomErrors(random);
     int nrOfRandomTests = 100000;
 
     for(int i = 0; i < nrOfRandomTests; ++i) {
       String str = randomErrors.getRandomString();
-      String modfifiedString = randomErrors.addErrors(str, 3);
+      String modfifiedString = randomErrors.addErrors(str, random.nextInt(3));
       int actualDistance = LevenshteinDistance.computeLevenshteinDistance(str, modfifiedString);
 //      System.out.println(String.format("%s, %s, %d", str, modfifiedString, actualDistance));
       checkMatch(str, modfifiedString, 2, actualDistance);

@@ -44,7 +44,7 @@ public class RandomErrorsTest {
     checkVariants(
         original,
         a->randomErrors.addErrors(a, 3),
-        "[orjgunal, breyincl, olquinrl, okfuinal, lrigoval, txlgiaal, orrginae, triggnds, srdgnnvd, uhigiran]"
+        "[orgiln, oinial, oriil, oiigna, rpignial, oignla, vrinal, orial, gorinal, rinal]"
         );
 
   }

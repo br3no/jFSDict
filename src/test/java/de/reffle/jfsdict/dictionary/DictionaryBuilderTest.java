@@ -13,7 +13,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import de.reffle.jfsdict.dictionary.*;
 import de.reffle.jfsdict.transtable.RichTransTable.ValueType;
 
 public class DictionaryBuilderTest {
@@ -89,7 +88,7 @@ public class DictionaryBuilderTest {
 
   @Test
   public void testParseEntry() throws Exception {
-    DictEntry entry = DictionaryBuilder.parseEntry("hänsel#42");
+    DictEntry entry = DictionaryBuilder.parseEntry("h\u00e4nsel#42");
     assertEquals(5, entry.getKey().length());
     assertEquals("(hänsel,42)", entry.toString());
   }

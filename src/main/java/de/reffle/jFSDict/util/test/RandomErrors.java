@@ -1,4 +1,4 @@
-package de.reffle.jFSDict.levenshtein;
+package de.reffle.jFSDict.util.test;
 
 import java.util.Random;
 import java.util.function.Function;

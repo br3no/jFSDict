@@ -46,6 +46,7 @@ public abstract class DictionaryBuilder {
 
   public Dictionary buildFromWordlist(Reader reader) throws FileNotFoundException,
   IOException {
+    Stopwatch stopwatch = new Stopwatch();
     String line = null;
     BufferedReader bufReader = new BufferedReader(reader);
     while((line = bufReader.readLine()) != null) {
@@ -53,11 +54,14 @@ public abstract class DictionaryBuilder {
       addWord(entry);
     }
     bufReader.close();
-    return finishAndGet();
+    Dictionary finishedDict = finishAndGet();
+    LOG.log(Level.INFO, "BuildFromWordlist: Took {0}ms.",
+        new Object[]{stopwatch.getMillis()});
+    return finishedDict;
   }
 
 
-  static DictEntry parseEntry(String line) {
+  public static DictEntry parseEntry(String line) {
     DictEntry entry = new DictEntry();
     int delimiterPos = line.indexOf((int)ANNOTATION_DELIMITER);
     if(delimiterPos == -1) {
@@ -101,8 +105,8 @@ public abstract class DictionaryBuilder {
     lastAnnotation = annotation;
 
     if(dict.getNrOfKeys() % 1000 == 0) {
-      if(dict.getNrOfKeys() % 10000 == 0) {
-        LOG.log(Level.INFO, "{0} words inserted. {1} ms for last 10k.", new Object[]{dict.getNrOfKeys(), addWordStopwatch.getMillies()});
+      if(dict.getNrOfKeys() % 100000 == 0) {
+        LOG.log(Level.INFO, "{0} words inserted. {1} ms for last 100k.", new Object[]{dict.getNrOfKeys(), addWordStopwatch.getMillis()});
         addWordStopwatch.reset();
       }
       else if(dict.getNrOfKeys() % 1000 == 0) {

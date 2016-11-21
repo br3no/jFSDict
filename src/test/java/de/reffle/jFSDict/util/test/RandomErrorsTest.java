@@ -1,4 +1,4 @@
-package de.reffle.jFSDict.levenshtein;
+package de.reffle.jFSDict.util.test;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -7,6 +7,8 @@ import java.util.function.Function;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+
+import de.reffle.jFSDict.util.test.RandomErrors;
 
 public class RandomErrorsTest {
   RandomErrors randomErrors = new RandomErrors(new Random(42));

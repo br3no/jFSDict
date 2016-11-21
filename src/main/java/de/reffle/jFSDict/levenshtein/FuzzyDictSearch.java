@@ -9,22 +9,22 @@ public class FuzzyDictSearch {
 
   private Dictionary dict;
 
-  LevFSA levFSA = new LevFSA();
+  private LevFSA levFSA = new LevFSA();
+
 
   public FuzzyDictSearch(Dictionary aDict) {
-    dict        = aDict;
+    dict          = aDict;
   }
 
-  public void query(String aPattern, int aMaxDistance) {
+  public void query(String aPattern, int aMaxDistance, MatchReceiver aMatchReceiver) {
     levFSA.loadPattern(aPattern, aMaxDistance);
     RichState dicState = dict.getRoot();
     LevState levState  = levFSA.getRoot();
 
-    System.out.println(String.format("---%s---", aPattern));
-    query(dicState, levState, new StringBuilder());
+    query(dicState, levState, new StringBuilder(), aMatchReceiver);
   }
 
-  private void query(RichState aDicState, LevState aLevState, StringBuilder aPrefix) {
+  private void query(RichState aDicState, LevState aLevState, StringBuilder aPrefix, MatchReceiver aMatchReceiver) {
     Iterator<Character> labels = aDicState.labelIterator();
     while(labels.hasNext()) {
       Character c = labels.next();
@@ -34,9 +34,9 @@ public class FuzzyDictSearch {
       if(nextDicState.isValid() && nextLevState.isValid()) {
         aPrefix.append(c);
         if(nextDicState.isFinal() && levFSA.isFinal(nextLevState)) {
-          System.out.println(String.format("%s, %d, %d", aPrefix.toString(), levFSA.getDistance(nextLevState), nextDicState.getAnnotation()));
+          aMatchReceiver.receive(new Match(aPrefix.toString(), levFSA.getDistance(nextLevState), nextDicState.getAnnotation()));
         }
-        query(nextDicState, nextLevState, aPrefix);
+        query(nextDicState, nextLevState, aPrefix, aMatchReceiver);
         aPrefix.deleteCharAt(aPrefix.length()-1);
       }
     }

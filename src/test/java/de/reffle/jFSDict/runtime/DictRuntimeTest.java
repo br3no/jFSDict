@@ -11,8 +11,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import de.reffle.jFSDict.dictionary.*;
-import de.reffle.jFSDict.transTable.WordIterator;
 import de.reffle.jFSDict.transTable.RichTransTable.ValueType;
+import de.reffle.jFSDict.transTable.WordIterator;
+import de.reffle.jFSDict.util.Stopwatch;
 
 
 public class DictRuntimeTest {
@@ -62,19 +63,18 @@ public class DictRuntimeTest {
 
   public void testDurations(DictionaryBuilder aDictionaryBuilder, int aConstructionMillies, int aTraversalMillies, int aLookupMillies) throws IOException {
 
-    Logger.getLogger(getClass().getName()).log(Level.INFO, "Start testDurations");
+    LOG.log(Level.INFO, "Start testDurations");
     Dictionary trie = null;
 
     {
-      long start = Calendar.getInstance().getTimeInMillis();
+      Stopwatch stopwatch = new Stopwatch();
       trie =	 createDict(aDictionaryBuilder);
-      long end = Calendar.getInstance().getTimeInMillis();
-      long duration = end - start;
+      long duration = stopwatch.getMillis();
       LOG.log(Level.INFO,
           "Built trie for {0} words in english_modern.lex: {1} ms.",
           new Object[]{trie.getNrOfKeys(), duration });
-      assertTrue("Construction of dict should not exceed this!", (duration < aConstructionMillies));
-      assertTrue("Is something wrong? Construction of dict is much faster than expected!", (duration > aConstructionMillies/5));
+      assertTrue(String.format("Construction of dict (&d ms) should not exceed %d ms!", duration, aConstructionMillies), (duration < aConstructionMillies));
+      assertTrue(String.format("Is something wrong? Construction of dict (%d ms) is much faster than expected (%d ms)!", duration, aConstructionMillies), (duration > aConstructionMillies/5));
     }
 
     /////  Traversal
@@ -89,8 +89,8 @@ public class DictRuntimeTest {
       Logger.getLogger(getClass().getName()).log(Level.INFO,
           "Traversed trie for english_modern.lex: {0} ms.",
           new Object[]{duration});
-      assertTrue("Traversal should not exceed this!", (duration < aTraversalMillies));
-      assertTrue("Is something wrong? Traversal is much faster than expected!", (duration > aTraversalMillies/5));
+      assertTrue(String.format("Traversal (%d ms) should not exceed %d ms!", duration, aTraversalMillies), (duration < aTraversalMillies));
+      assertTrue(String.format("Is something wrong? Traversal (%d) is much faster than expected (%d)!", duration, aTraversalMillies), (duration > aTraversalMillies/5));
     }
 
     // lookup
@@ -108,7 +108,7 @@ public class DictRuntimeTest {
     Logger.getLogger(getClass().getName()).log(Level.INFO,
         "Lookup for all words of english_modern.lex: {0} ms.",
         new Object[]{duration});
-    assertTrue("Lookup should not exceed this!", (duration < aLookupMillies));
-    assertTrue("Is something wrong? Lookup is much faster than expected!", (duration > aLookupMillies/5));
+    assertTrue(String.format("Lookup (%d ms) should not exceed %d ms!", duration, aLookupMillies), (duration < aLookupMillies));
+    assertTrue(String.format("Is something wrong? Lookup (%d) is much faster than expected (%d)!", duration, aLookupMillies), (duration > aLookupMillies/5));
   }
 }

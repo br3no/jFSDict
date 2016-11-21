@@ -13,7 +13,7 @@ public class Stopwatch {
     startNanos = now();
   }
 
-  public long getMillies() {
+  public long getMillis() {
     return getNanos() / 1000000;
   }
 

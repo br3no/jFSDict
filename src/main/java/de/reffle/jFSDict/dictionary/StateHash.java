@@ -72,7 +72,7 @@ public class StateHash {
       doPut(state, state.getStateId());
     }
     collisionStats.reset();
-    LOG.log(Level.FINE, "Resized hashstable to {0} in {1} ms", new Object[] {hashdata.size(), stopwatch.getMillies()});
+    LOG.log(Level.FINE, "Resized hashstable to {0} in {1} ms", new Object[] {hashdata.size(), stopwatch.getMillis()});
   }
 
   protected int getBucket(AbstractState state) {

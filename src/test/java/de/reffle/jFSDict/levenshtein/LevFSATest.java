@@ -9,6 +9,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import de.reffle.jFSDict.util.test.RandomErrors;
+
 public class LevFSATest {
   private static final Logger LOG = Logger.getLogger(LevFSATest.class.getName());
 

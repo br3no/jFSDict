@@ -4,13 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-import de.reffle.jfsdict.levenshtein.AutData;
-import de.reffle.jfsdict.levenshtein.AutData1;
-
 public class AutDataTest {
   @Test
   public void testVectorSnippets() throws Exception {
-    AutData autData = new AutData1();
+    AutData autData = new AutData(1);
 
     assertEquals(0b011, autData.getVectorSnippet(0b1110000, 7, 0, 1));
     assertEquals(0b111, autData.getVectorSnippet(0b1110000, 7, 1, 1));

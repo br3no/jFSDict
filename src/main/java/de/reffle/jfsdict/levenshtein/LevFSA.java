@@ -7,9 +7,7 @@ public class LevFSA {
 
   private static final Logger LOG = Logger.getLogger(LevFSA.class.getName());
 
-  AutData autData1 = new AutData1();
-
-  private static AutData[] autDatas = {null, new AutData1(), new AutData2()};
+  private static AutData[] autDatas = {null, new AutData(1), new AutData(2), new AutData(3)};
 
   private String      pattern      = null;
   private int         levDistance  = 0;

@@ -4,8 +4,6 @@ import org.junit.Test;
 
 import de.reffle.jfsdict.dictionary.Trie;
 import de.reffle.jfsdict.dictionary.TrieBuilder;
-import de.reffle.jfsdict.levenshtein.FuzzyDictSearch;
-import de.reffle.jfsdict.levenshtein.MatchReceiverList;
 import de.reffle.jfsdict.util.test.Tests;
 
 public class FuzzyDictSearchTest {
@@ -31,6 +29,14 @@ public class FuzzyDictSearchTest {
     matchReceiver.clear();
     fuzzyDictSearch.query("rtram", 2, matchReceiver);
     Tests.assertStringEquals("[bertram, 2, 16]", matchReceiver);
+
+    matchReceiver.clear();
+    fuzzyDictSearch.query("a", 3, matchReceiver);
+    Tests.assertStringEquals("[anna, 3, 13, anne, 3, 14]", matchReceiver);
+
+    matchReceiver.clear();
+    fuzzyDictSearch.query("bxxa", 3, matchReceiver);
+    Tests.assertStringEquals("[anna, 3, 13, berta, 3, 15]", matchReceiver);
 
   }
 

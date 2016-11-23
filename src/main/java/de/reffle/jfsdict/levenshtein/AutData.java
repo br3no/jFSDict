@@ -44,21 +44,15 @@ public class AutData {
     }
   }
 
-  public int getZeroShift() {
-    return zeroShift;
-  }
 
   int getVectorSnippet(int aCharVec, int aPatternLength, int aPatternPos, int aDistance) {
     int r = 0;
-    int shiftRight = (aPatternLength - aPatternPos - 1 - getZeroShift());
+    int shiftRight = (aPatternLength - aPatternPos - 1 - zeroShift);
     if(shiftRight > 0) r = (aCharVec >> shiftRight);
     else               r = (aCharVec << -shiftRight);
-    return (r & getZ2k1());
+    return (r & z2k1);
   }
 
-  public int getZ2k1() {
-    return z2k1 ;
-  }
 
   private void getAutData() {
     try {

@@ -81,15 +81,15 @@ public class DictionaryBuilderTest {
   @Test
   public void testNonAscii() throws Exception {
     DictionaryBuilder dictionaryBuilder = new MinDicBuilder();
-    dictionaryBuilder.addWord("cäsar");
+    dictionaryBuilder.addWord("c\u00e4sar");
     Dictionary dict = dictionaryBuilder.finishAndGet();
     assertEquals(6, dict.getNrOfStates());
   }
 
   @Test
   public void testParseEntry() throws Exception {
-    DictEntry entry = DictionaryBuilder.parseEntry("h\u00e4nsel#42");
+    DictEntry entry = DictionaryBuilder.parseEntry("c\u00e4sar#42");
     assertEquals(5, entry.getKey().length());
-    assertEquals("(hänsel,42)", entry.toString());
+    assertEquals("(c\u00e4sar,42)", entry.toString());
   }
 }

@@ -11,8 +11,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import de.reffle.jfsdict.dictionary.*;
-import de.reffle.jfsdict.transtable.WordIterator;
 import de.reffle.jfsdict.transtable.RichTransTable.ValueType;
+import de.reffle.jfsdict.transtable.WordIterator;
 import de.reffle.jfsdict.util.Stopwatch;
 
 
@@ -32,7 +32,7 @@ public class DictRuntimeTest {
 
   @Test
   public void testMinDic() throws Exception {
-    testDurations(new MinDicBuilder(), 10000, 1000, 100);
+    testDurations(new MinDicBuilder(), 2000, 1000, 100);
   }
 
 

@@ -9,8 +9,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import de.reffle.jfsdict.transtable.RichTransTable;
-
 public class TransTableTest {
   /**
    * Create a very simple TransTable with random labels and targets
@@ -60,7 +58,6 @@ public class TransTableTest {
 
   @Test
   public void testTargetAt() {
-    System.out.println("targetAt");
     RichTransTable tt = getSimpleTransTable();
     assertEquals(40, tt.targetAt(9042));
     try {

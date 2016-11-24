@@ -1,12 +1,15 @@
 package de.reffle.jfsdict.levenshtein;
 
 import java.util.*;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CharVectors {
   private static int KEEP_IN_ARRAY = 1000;
 
-  private static final Logger LOG = Logger.getLogger(CharVectors.class.getName());
+  @SuppressWarnings("unused")
+  private static Logger LOG = LoggerFactory.getLogger(CharVectors.class);
 
   private String                  pattern;
   private List<Integer>           charvecList = new ArrayList<>();
@@ -32,7 +35,6 @@ public class CharVectors {
     for(int i=0; i < pattern.length(); ++i) {
       char c = pattern.charAt(i);
       set(c, get(c) | movingBit );
-//      System.out.println(String.format("c=%c, %d", c, get(c)));
       movingBit = movingBit  >> 1;
     }
   }

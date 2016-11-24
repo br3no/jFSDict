@@ -1,16 +1,12 @@
 package de.reffle.jfsdict.transtable;
 
 import java.util.Iterator;
-import java.util.logging.Logger;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import de.reffle.jfsdict.cli.CompileDic;
 import de.reffle.jfsdict.transtable.RichTransTable.PerfectHashAccumulator;
 
 public class RichState extends AbstractState {
-
-  private static final Logger LOG = Logger.getLogger(CompileDic.class.getName());
 
   final RichTransTable transTable;
 

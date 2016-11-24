@@ -4,11 +4,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -16,7 +16,9 @@ import static org.junit.Assert.fail;
 import de.reffle.jfsdict.transtable.RichTransTable.ValueType;
 
 public class DictionaryBuilderTest {
-  private static final Logger LOG = Logger.getLogger(DictionaryBuilderTest.class.getName());
+
+  private static Logger LOG = LoggerFactory.getLogger(DictionaryBuilderTest.class);
+
   Map<String, Integer> someSourceDict;
 
   public DictionaryBuilderTest() {
@@ -63,7 +65,7 @@ public class DictionaryBuilderTest {
       Entry<String, Integer> nextInSource = sourceIterator.next();
       DictEntry nextInDictAnn  = dictIteratorAnn.next();
       DictEntry nextInDictIndex= dictIteratorIndex.next();
-      LOG.log(Level.FINE, "nextInSource is {0}, nextInDict is {1}", new Object[]{nextInSource, nextInDictAnn} );
+      LOG.trace("nextInSource is {}, nextInDict is {}", nextInSource, nextInDictAnn);
       assertEquals(nextInSource.getKey(), nextInDictAnn.getKey());
       assertEquals(nextInSource.getValue().intValue(), nextInDictAnn.getValue());
       assertEquals(expectedIndex, nextInDictIndex.getValue());

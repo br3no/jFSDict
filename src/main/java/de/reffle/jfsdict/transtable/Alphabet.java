@@ -3,14 +3,13 @@ package de.reffle.jfsdict.transtable;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import de.reffle.jfsdict.dictionary.MinDicBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Alphabet implements Iterable<Character> {
 
-  private final static Logger LOG = Logger.getLogger(MinDicBuilder.class.getName());
+  private static Logger LOG = LoggerFactory.getLogger(Alphabet.class);
 
   private Set<Character> charSet;
 
@@ -24,7 +23,7 @@ public class Alphabet implements Iterable<Character> {
 
   public boolean addChar(char c) {
     if(charSet.add( c )) {
-      LOG.log(Level.FINE, "Added {0} to alphabet. Has now {1} entries.", new Object[]{c, charSet.size()});
+      LOG.trace("Added {} to alphabet. Has now {} entries.", c, charSet.size());
       return true;
     }
     return false;

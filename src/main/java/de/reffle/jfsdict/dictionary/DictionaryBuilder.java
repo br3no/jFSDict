@@ -2,8 +2,9 @@ package de.reffle.jfsdict.dictionary;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.reffle.jfsdict.transtable.RichTransTableBuilder;
 import de.reffle.jfsdict.transtable.TempState;
@@ -13,7 +14,7 @@ import de.reffle.jfsdict.util.Stopwatch;
 public abstract class DictionaryBuilder {
   private static final char ANNOTATION_DELIMITER = '#';
 
-  private final static Logger LOG = Logger.getLogger( DictionaryBuilder.class.getName() );
+  private static Logger LOG = LoggerFactory.getLogger(DictionaryBuilder.class);
 
   protected Dictionary dict;
   protected RichTransTableBuilder ttBuilder;
@@ -55,8 +56,7 @@ public abstract class DictionaryBuilder {
     }
     bufReader.close();
     Dictionary finishedDict = finishAndGet();
-    LOG.log(Level.INFO, "BuildFromWordlist: Took {0}ms.",
-        new Object[]{stopwatch.getMillis()});
+    LOG.info("BuildFromWordlist: Took {}ms.", stopwatch.getMillis());
     return finishedDict;
   }
 
@@ -86,7 +86,7 @@ public abstract class DictionaryBuilder {
   }
 
   public void addWord(String w, int annotation) {
-    LOG.log(Level.FINEST, "Add word {0} with annotation {1}", new Object[]{w, annotation});
+    LOG.trace("Add word {} with annotation {}", w, annotation);
     dict.incrementNrOfKeys();
     if(noWordsSeenYet()) {
       lastWord = new String(w);
@@ -106,11 +106,11 @@ public abstract class DictionaryBuilder {
 
     if(dict.getNrOfKeys() % 1000 == 0) {
       if(dict.getNrOfKeys() % 100000 == 0) {
-        LOG.log(Level.INFO, "{0} words inserted. {1} ms for last 100k.", new Object[]{dict.getNrOfKeys(), addWordStopwatch.getMillis()});
+        LOG.info("{} words inserted. {} ms for last 100k.", dict.getNrOfKeys(), addWordStopwatch.getMillis());
         addWordStopwatch.reset();
       }
       else if(dict.getNrOfKeys() % 1000 == 0) {
-        LOG.log(Level.FINE, "{0} words inserted.", new Object[]{dict.getNrOfKeys()});
+        LOG.trace("{} words inserted.", dict.getNrOfKeys());
       }
 
     }
@@ -128,15 +128,12 @@ public abstract class DictionaryBuilder {
   public Dictionary finishAndGet() {
     finishConstruction();
     dict.trimEmptyTail();
-    LOG.log(Level.INFO, "Built dictionary with {0} entries, {1} states, {2} slots.",
-            new Object[]{dict.getNrOfKeys(), dict.getNrOfStates(), dict.getTableSize()});
+    LOG.info("Built dictionary with {} entries, {} states, {} slots.", dict.getNrOfKeys(), dict.getNrOfStates(), dict.getTableSize());
     return dict;
   }
 
 
   private void finishConstruction() {
-    LOG.log(Level.FINEST, "Enter finishConstruction.");
-
     adjustNumberOfTempStates();
     tempStates.get(lastWord.length()).setFinal(true);
     tempStates.get(lastWord.length()).setAnnotation(lastAnnotation);
@@ -152,7 +149,7 @@ public abstract class DictionaryBuilder {
     int slot = findOrStoreTempState(tempStateIndex);
     tempStates.get(tempStateIndex - 1).addTransition(lastWord.charAt(tempStateIndex-1), slot, tempStates.get(tempStateIndex).getWordsFromHere());
     tempStates.get(tempStateIndex).reset();
-    LOG.log(Level.FINER, "Add transition [{0}]--{1}--> {2}", new Object[]{(tempStateIndex-1),lastWord.charAt(tempStateIndex-1),slot});
+    LOG.trace("Add transition [{}]--{}--> {}", (tempStateIndex-1),lastWord.charAt(tempStateIndex-1),slot);
   }
 
 

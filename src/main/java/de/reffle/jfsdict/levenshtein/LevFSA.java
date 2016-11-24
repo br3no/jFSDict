@@ -1,11 +1,6 @@
 package de.reffle.jfsdict.levenshtein;
 
-import java.util.logging.Logger;
-
-
 public class LevFSA {
-
-  private static final Logger LOG = Logger.getLogger(LevFSA.class.getName());
 
   private static AutData[] autDatas = {null, new AutData(1), new AutData(2), new AutData(3)};
 
@@ -34,7 +29,6 @@ public class LevFSA {
 
   public LevState delta(LevState aLevState, char aChar) {
     int charVec = autData.getVectorSnippet(charVectors.get(aChar), pattern.length(), aLevState.getPatternPos(), levDistance);
-//    System.out.println("charvec is " + Integer.toBinaryString(charVec));
     return new LevState(autData.delta(aLevState.getStateIndex(), charVec), aLevState.getPatternPos() + 1);
   }
 

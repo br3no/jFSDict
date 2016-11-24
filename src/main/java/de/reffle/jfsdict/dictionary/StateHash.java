@@ -1,14 +1,16 @@
 package de.reffle.jfsdict.dictionary;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.reffle.jfsdict.transtable.*;
 import de.reffle.jfsdict.util.Stats;
 import de.reffle.jfsdict.util.Stopwatch;
 
 public class StateHash {
-  private final static Logger LOG = Logger.getLogger(MinDicBuilder.class.getName());
+
+  private static Logger LOG = LoggerFactory.getLogger(StateHash.class);
 
   private HashData hashdata = new HashData();
 
@@ -46,7 +48,7 @@ public class StateHash {
     hashdata.set(bucket, aSlot);
     collisionStats.put(probes);
     if(hashdata.getBucketsFilled() % 10000 == 0) {
-      LOG.log(Level.FINE, "Collision stats: {0}", collisionStats.toString());
+      LOG.trace("Collision stats: {}", collisionStats.toString());
       collisionStats.reset();
     }
   }
@@ -54,14 +56,14 @@ public class StateHash {
   private void checkResize() {
     int filledRatio = hashdata.getFilledRatio();
     if(filledRatio > 40) {
-      LOG.log(Level.FINE, "Hashtable is filled up to {0}%). Going to resize.", filledRatio);
+      LOG.trace("Hashtable is filled up to {}%). Going to resize.", filledRatio);
       resize((int)(hashdata.size()  * 1.5));
     }
   }
 
   private void resize(int aNewSize) {
     Stopwatch stopwatch = new Stopwatch();
-    LOG.log(Level.FINE, "Resizing hashtable to {0}", aNewSize);
+    LOG.trace("Resizing hashtable to {}", aNewSize);
     HashData oldHashData = hashdata;
 
     hashdata = new HashData(aNewSize);
@@ -72,7 +74,7 @@ public class StateHash {
       doPut(state, state.getStateId());
     }
     collisionStats.reset();
-    LOG.log(Level.FINE, "Resized hashstable to {0} in {1} ms", new Object[] {hashdata.size(), stopwatch.getMillis()});
+    LOG.trace("Resized hashstable to {} in {} ms", hashdata.size(), stopwatch.getMillis());
   }
 
   protected int getBucket(AbstractState state) {

@@ -1,13 +1,14 @@
 package de.reffle.jfsdict.transtable;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.reffle.jfsdict.transtable.TempState.Transition;
 
 
 public class RichTransTableBuilder {
-  private static final Logger LOG = Logger.getLogger(RichTransTableBuilder.class.getName());
+
+  private static Logger LOG = LoggerFactory.getLogger(RichTransTableBuilder.class);
 
   private static final int PROBING_WINDOW = 1000;
 
@@ -61,7 +62,7 @@ public class RichTransTableBuilder {
     writeStateSlot(stateSlot, tempState);
     storeTransitions(stateSlot, tempState);
 
-    LOG.log(Level.FINEST, "Inserted state at slot  {0}",  stateSlot);
+    LOG.trace("Inserted state at slot  {}",  stateSlot);
     transTable.setNrOfStates(transTable.getNrOfStates() + 1);
 
     firstCellToProbe = Math.max(findNextFreeSlot(firstCellToProbe), stateSlot - PROBING_WINDOW);
@@ -80,7 +81,7 @@ public class RichTransTableBuilder {
 
 
   protected void storeOneTransition(int aStateSlot, int aLabel, int aTarget, int aPerfectHashValue) {
-    LOG.log( Level.FINEST, "Add transition, {0} --{1}--> {2}", new Object[]{aStateSlot, aLabel, aTarget});
+    LOG.trace("Add transition, {} --{}--> {}", aStateSlot, aLabel, aTarget);
     int slot = aStateSlot + aLabel;
     transTable.set(slot, aLabel, aTarget, aPerfectHashValue);
   }

@@ -2,10 +2,10 @@ package de.reffle.jfsdict.runtime;
 
 import java.io.*;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -18,8 +18,7 @@ import de.reffle.jfsdict.util.Stopwatch;
 
 public class DictRuntimeTest {
 
-  private static final Logger LOG = Logger.getLogger(DictRuntimeTest.class.getName());
-
+  private static Logger LOG = LoggerFactory.getLogger(DictRuntimeTest.class);
 
   public DictRuntimeTest() throws IOException {
   }
@@ -63,16 +62,14 @@ public class DictRuntimeTest {
 
   public void testDurations(DictionaryBuilder aDictionaryBuilder, int aConstructionMillies, int aTraversalMillies, int aLookupMillies) throws IOException {
 
-    LOG.log(Level.INFO, "Start testDurations");
+    LOG.info("Start testDurations");
     Dictionary trie = null;
 
     {
       Stopwatch stopwatch = new Stopwatch();
       trie =	 createDict(aDictionaryBuilder);
       long duration = stopwatch.getMillis();
-      LOG.log(Level.INFO,
-          "Built trie for {0} words in english_modern.lex: {1} ms.",
-          new Object[]{trie.getNrOfKeys(), duration });
+      LOG.info("Built trie for {} words in english_modern.lex: {} ms.", trie.getNrOfKeys(), duration );
       assertTrue(String.format("Construction of dict (&d ms) should not exceed %d ms!", duration, aConstructionMillies), (duration < aConstructionMillies));
       assertTrue(String.format("Is something wrong? Construction of dict (%d ms) is much faster than expected (%d ms)!", duration, aConstructionMillies), (duration > aConstructionMillies/5));
     }
@@ -86,9 +83,7 @@ public class DictRuntimeTest {
 
       long end = Calendar.getInstance().getTimeInMillis();
       long duration = end - start;
-      Logger.getLogger(getClass().getName()).log(Level.INFO,
-          "Traversed trie for english_modern.lex: {0} ms.",
-          new Object[]{duration});
+      LOG.info("Traversed trie for english_modern.lex: {} ms.", duration);
       assertTrue(String.format("Traversal (%d ms) should not exceed %d ms!", duration, aTraversalMillies), (duration < aTraversalMillies));
       assertTrue(String.format("Is something wrong? Traversal (%d) is much faster than expected (%d)!", duration, aTraversalMillies), (duration > aTraversalMillies/5));
     }
@@ -105,9 +100,7 @@ public class DictRuntimeTest {
     br.close();
     long end = Calendar.getInstance().getTimeInMillis();
     long duration = end - start;
-    Logger.getLogger(getClass().getName()).log(Level.INFO,
-        "Lookup for all words of english_modern.lex: {0} ms.",
-        new Object[]{duration});
+    LOG.info("Lookup for all words of english_modern.lex: {} ms.", duration);
     assertTrue(String.format("Lookup (%d ms) should not exceed %d ms!", duration, aLookupMillies), (duration < aLookupMillies));
     assertTrue(String.format("Is something wrong? Lookup (%d) is much faster than expected (%d)!", duration, aLookupMillies), (duration > aLookupMillies/5));
   }

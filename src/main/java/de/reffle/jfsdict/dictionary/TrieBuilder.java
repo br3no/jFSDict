@@ -1,12 +1,13 @@
 package de.reffle.jfsdict.dictionary;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.reffle.jfsdict.transtable.RichTransTableBuilder;
 
 public class TrieBuilder extends DictionaryBuilder {
-  private final static Logger LOG = Logger.getLogger(TrieBuilder.class.getName());
+
+  private static Logger LOG = LoggerFactory.getLogger(TrieBuilder.class);
 
   public TrieBuilder() {
     super();
@@ -18,7 +19,7 @@ public class TrieBuilder extends DictionaryBuilder {
   @Override
   int findOrStoreTempState(int tempStateIndex) {
     int slot = ttBuilder.storeTempState(tempStates.get(tempStateIndex));
-    LOG.log(Level.FINER, "Stored Tempstate {0} to TransTable slot {1}", new Object[]{tempStateIndex, slot});
+    LOG.trace("Stored Tempstate {} to TransTable slot {}", tempStateIndex, slot);
     return slot;
   }
 

@@ -1,12 +1,13 @@
 package de.reffle.jfsdict.levenshtein;
 
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AutData {
 
-  private static final Logger LOG = Logger.getLogger(AutData.class.getName());
+  private static Logger LOG = LoggerFactory.getLogger(AutData.class);
 
   public int distance;
   public int bitVectorLength;
@@ -57,7 +58,7 @@ public class AutData {
   private void getAutData() {
     try {
       String resourcePath = "/autdata/autdata" + distance;
-      LOG.log(Level.INFO, "Load levenshtein automaton for distance {0} at {1}", new Object[]{distance, resourcePath});
+      LOG.info("Load levenshtein automaton for distance {} at {}", distance, resourcePath);
       InputStream fileStream = this.getClass().getResourceAsStream(resourcePath);
       BufferedReader bufReader = new BufferedReader(new InputStreamReader(fileStream));
 

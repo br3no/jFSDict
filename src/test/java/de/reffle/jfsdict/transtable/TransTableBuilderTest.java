@@ -4,10 +4,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-import de.reffle.jfsdict.transtable.RichTransTable;
-import de.reffle.jfsdict.transtable.RichTransTableBuilder;
-import de.reffle.jfsdict.transtable.TempState;
-
 public class TransTableBuilderTest {
 
     public TransTableBuilderTest() {
@@ -16,7 +12,6 @@ public class TransTableBuilderTest {
 
     @Test
     public void testAddState() {
-        System.out.println("addState");
         RichTransTable transTable = new RichTransTable();
         RichTransTableBuilder builder = new RichTransTableBuilder( transTable );
         TempState tempState = new TempState();

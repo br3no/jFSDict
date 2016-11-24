@@ -3,10 +3,10 @@ package de.reffle.jfsdict.cli;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.commons.cli.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.reffle.jfsdict.dictionary.*;
 
@@ -18,12 +18,12 @@ public class CompileDic {
       compileMinDic.doIt(args);
     }
     catch(Exception e) {
-      LOG.log(Level.SEVERE, "Error: "+ e.getMessage());
+      LOG.error("Error: "+ e.getMessage());
     }
   }
 
 
-  private static final Logger LOG = Logger.getLogger(CompileDic.class.getName());
+  private static Logger LOG = LoggerFactory.getLogger(CompileDic.class);
   private CommandLine commandLine;
   private DictionaryBuilder dicBuilder;
   private static Options options;
@@ -37,7 +37,7 @@ public class CompileDic {
     }
 
     Dictionary minDic = buildDictionary();
-    LOG.log(Level.INFO, "Built dictionary with {0} entries, {1} states.", new Object[]{minDic.getNrOfKeys(), minDic.getNrOfStates()});
+    LOG.info("Built dictionary with {} entries, {} states.", minDic.getNrOfKeys(), minDic.getNrOfStates());
     if(commandLine.hasOption("dot")) {
       System.out.println(minDic.toDot());
     }
@@ -56,11 +56,11 @@ public class CompileDic {
 
   private Dictionary buildDictionary() throws Exception {
     if(commandLine.hasOption("trie")) {
-      LOG.log(Level.INFO, "Will build using TrieBuilder.");
+      LOG.info("Will build using TrieBuilder.");
       dicBuilder =  new TrieBuilder();
     }
     else {
-      LOG.log(Level.INFO, "Will build using MinDicBuilder.");
+      LOG.info("Will build using MinDicBuilder.");
       dicBuilder = new MinDicBuilder();
     }
     if(commandLine.hasOption("input")) {
@@ -74,14 +74,14 @@ public class CompileDic {
 
 
   private static Dictionary buildFromStdin(DictionaryBuilder dicBuilder) throws Exception {
-    LOG.log(Level.INFO, "Will build dictfrom STDIN.");
+    LOG.info("Will build dictfrom STDIN.");
     BufferedReader reader = new BufferedReader( new InputStreamReader( System.in ) );
     return dicBuilder.buildFromWordlist(reader);
   }
 
 
   private static Dictionary buildFromFile(DictionaryBuilder dicBuilder, String pathToFile) throws Exception {
-    LOG.log(Level.INFO, "Will build dict from input file {0}", pathToFile);
+    LOG.info("Will build dict from input file {}", pathToFile);
     File file = new File(pathToFile);
     return dicBuilder.buildFromWordlist(file);
   }

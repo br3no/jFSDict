@@ -1,20 +1,19 @@
 package de.reffle.jfsdict.levenshtein;
 
 import java.util.Random;
-import java.util.logging.Logger;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import de.reffle.jfsdict.levenshtein.LevFSA;
-import de.reffle.jfsdict.levenshtein.LevState;
 import de.reffle.jfsdict.util.test.RandomErrors;
 
 public class LevFSATest {
-  private static final Logger LOG = Logger.getLogger(LevFSATest.class.getName());
+  private static Logger LOG = LoggerFactory.getLogger(LevFSATest.class);
 
   @Test
   public void walkTest() throws Exception {
@@ -93,7 +92,7 @@ public class LevFSATest {
       String str = randomErrors.getRandomString();
       String modfifiedString = randomErrors.addErrors(str, random.nextInt(3));
       int actualDistance = LevenshteinDistance.computeLevenshteinDistance(str, modfifiedString);
-//      System.out.println(String.format("%s, %s, %d", str, modfifiedString, actualDistance));
+      LOG.trace("{}, {}, {}", str, modfifiedString, actualDistance);
       checkMatch(str, modfifiedString, 2, actualDistance);
     }
   }

@@ -2,8 +2,9 @@ package de.reffle.jfsdict.transtable;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.reffle.jfsdict.dictionary.DictEntry;
 
@@ -14,8 +15,7 @@ import de.reffle.jfsdict.dictionary.DictEntry;
  */
 public class RichTransTable implements Iterable<DictEntry>, Serializable {
 
-  private static final Logger LOG = Logger.getLogger( RichTransTable.class.getName() );
-
+  private static Logger LOG = LoggerFactory.getLogger(RichTransTable.class);
 
   public static final int FAILSTATE_ID = 0;
 
@@ -201,7 +201,7 @@ public class RichTransTable implements Iterable<DictEntry>, Serializable {
     int count = 0;
     for(DictEntry w : this) {
       System.out.println( w.getKey() );
-      if( ++count % 10000 == 0 ) LOG.log(Level.FINE, "Printed {0}k words.", count/1000 );
+      if( ++count % 100000 == 0 ) LOG.trace("Printed {}k words.", count/1000 );
     }
   }
 
@@ -237,7 +237,7 @@ public class RichTransTable implements Iterable<DictEntry>, Serializable {
   }
 
   protected boolean resize( int newSize ) {
-    LOG.log(Level.FINE, "Resize from {0} to {1}", new Object[]{sparseTableSize, newSize});
+    LOG.debug("Resize transTable from {} to {}", sparseTableSize, newSize);
 
     label   = resizeArray(label  , newSize);
     target  = resizeArray(target , newSize);

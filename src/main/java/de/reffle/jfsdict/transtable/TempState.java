@@ -8,15 +8,10 @@ package de.reffle.jfsdict.transtable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import de.reffle.jfsdict.cli.CompileDic;
-
 public class TempState extends AbstractState {
-
-  private static final Logger LOG = Logger.getLogger(CompileDic.class.getName());
 
   private List<Transition> transitions;
 

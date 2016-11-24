@@ -4,10 +4,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.reffle.jfsdict.dictionary.*;
 import de.reffle.jfsdict.levenshtein.FuzzyDictSearch;
@@ -18,7 +18,7 @@ import de.reffle.jfsdict.util.test.RandomErrors;
 
 public class FuzzyDictSearchRuntimeTest {
 
-  private static final Logger LOG = Logger.getLogger(DictRuntimeTest.class.getName());
+  private static Logger LOG = LoggerFactory.getLogger(FuzzyDictSearchRuntimeTest.class);
 
   @Test
   public void testRuntime() throws Exception {
@@ -47,11 +47,9 @@ public class FuzzyDictSearchRuntimeTest {
       statsNrOfMatches.put(nrOfMatches);
       statsDuration.put(stopwatch.getMillis());
     }
-    LOG.log(Level.INFO,
-        "{0} queries with distance {1}: {2} ms",
-        new Object[]{nrOfQueries, distance, stopwatchAll.getMillis()});
-    LOG.log(Level.INFO, "Number of matches: {0}", statsNrOfMatches.toString());
-    LOG.log(Level.INFO, "duration: {0}", statsDuration.toString());
+    LOG.info("{} queries with distance {}: {} ms", nrOfQueries, distance, stopwatchAll.getMillis());
+    LOG.info("Number of matches: {}", statsNrOfMatches.toString());
+    LOG.info("duration: {}", statsDuration.toString());
   }
 
 

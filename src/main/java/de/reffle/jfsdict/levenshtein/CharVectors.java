@@ -18,12 +18,12 @@ public class CharVectors {
   private static Integer zero = new Integer(0);
 
   public CharVectors() {
+    for(int i=0;i<KEEP_IN_ARRAY;++i) charvecList.add(0);
   }
 
   public void loadPattern(String aPattern) {
     reset();
     pattern = aPattern;
-    for(int i=0;i<KEEP_IN_ARRAY;++i) charvecList.add(0);
     computeCharvecs();
   }
 

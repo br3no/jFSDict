@@ -237,7 +237,7 @@ public class RichTransTable implements Iterable<DictEntry>, Serializable {
   }
 
   protected boolean resize( int newSize ) {
-    LOG.debug("Resize transTable from {} to {}", sparseTableSize, newSize);
+    LOG.trace("Resize transTable from {} to {}", sparseTableSize, newSize);
 
     label   = resizeArray(label  , newSize);
     target  = resizeArray(target , newSize);

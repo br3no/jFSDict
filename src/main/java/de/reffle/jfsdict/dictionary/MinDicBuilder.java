@@ -42,7 +42,7 @@ public class MinDicBuilder extends DictionaryBuilder {
       LOG.trace("Stored Tempstate {} to TransTable slot {}", tempStateIndex, slot);
 
       if(ttBuilder.getTransTable().getNrOfStates() % 10000 == 0) {
-        LOG.debug("findOrStore Stats (nanoseconds): {}", statsFindOrStore);
+        LOG.trace("findOrStore Stats (nanoseconds): {}", statsFindOrStore);
         statsFindOrStore.reset();
       }
     }

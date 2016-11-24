@@ -58,7 +58,7 @@ public class AutData {
   private void getAutData() {
     try {
       String resourcePath = "/autdata/autdata" + distance;
-      LOG.info("Load levenshtein automaton for distance {} at {}", distance, resourcePath);
+      LOG.debug("Load levenshtein automaton for distance {} at {}", distance, resourcePath);
       InputStream fileStream = this.getClass().getResourceAsStream(resourcePath);
       BufferedReader bufReader = new BufferedReader(new InputStreamReader(fileStream));
 

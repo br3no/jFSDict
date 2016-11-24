@@ -105,11 +105,11 @@ public abstract class DictionaryBuilder {
     lastAnnotation = annotation;
 
     if(dict.getNrOfKeys() % 1000 == 0) {
-      if(dict.getNrOfKeys() % 100000 == 0) {
-        LOG.info("{} words inserted. {} ms for last 100k.", dict.getNrOfKeys(), addWordStopwatch.getMillis());
+      if(dict.getNrOfKeys() % 1000000 == 0) {
+        LOG.debug("{} words inserted. {} ms for last 1M.", dict.getNrOfKeys(), addWordStopwatch.getMillis());
         addWordStopwatch.reset();
       }
-      else if(dict.getNrOfKeys() % 1000 == 0) {
+      else if(LOG.isTraceEnabled() && dict.getNrOfKeys() % 1000 == 0) {
         LOG.trace("{} words inserted.", dict.getNrOfKeys());
       }
 

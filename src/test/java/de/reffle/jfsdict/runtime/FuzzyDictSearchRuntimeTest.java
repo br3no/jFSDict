@@ -20,36 +20,44 @@ public class FuzzyDictSearchRuntimeTest {
 
   private static Logger LOG = LoggerFactory.getLogger(FuzzyDictSearchRuntimeTest.class);
 
+  Random random = new Random(42);
+
+  private Dictionary       minDic;
+  private PatternGenerator patternGenerator;
+
+  public FuzzyDictSearchRuntimeTest() throws Exception {
+    minDic = getMinDic();
+    patternGenerator = new PatternGenerator("/english_modern.lex", random);
+  }
+
   @Test
   public void testRuntime() throws Exception {
-    Dictionary minDic = getMinDic();
+    testRuntime(1, 50000);
+    testRuntime(2, 5000);
+  }
 
-    Random random = new Random(42);
+  public void testRuntime(int aDistance, int aNrOfQueries) throws Exception {
 
-    PatternGenerator patternGenerator = new PatternGenerator("/english_modern.lex", random);
 
     FuzzyDictSearch fuzzyDictSearch = new FuzzyDictSearch(minDic);
-
-    int distance    = 1;
-    int nrOfQueries = 10000;
 
     Stopwatch stopwatchAll = new Stopwatch();
     Stopwatch stopwatch = new Stopwatch();
     MatchReceiverList matchReceiver = new MatchReceiverList();
     Stats statsNrOfMatches = new Stats();
     Stats statsDuration    = new Stats();
-    for(int i = 0; i<nrOfQueries; ++i) {
-      String pattern = patternGenerator.nextQuery(distance);
+    for(int i = 0; i<aNrOfQueries; ++i) {
+      String pattern = patternGenerator.nextQuery(aDistance);
       stopwatch.reset();
       matchReceiver.clear();
-      fuzzyDictSearch.query(pattern, distance, matchReceiver);
+      fuzzyDictSearch.query(pattern, aDistance, matchReceiver);
       int nrOfMatches = matchReceiver.getList().size();
       statsNrOfMatches.put(nrOfMatches);
       statsDuration.put(stopwatch.getMillis());
     }
-    LOG.info("{} queries with distance {}: {} ms", nrOfQueries, distance, stopwatchAll.getMillis());
+    LOG.info("{} queries with distance {}: {} ms", aNrOfQueries, aDistance, stopwatchAll.getMillis());
     LOG.info("Number of matches: {}", statsNrOfMatches.toString());
-    LOG.info("duration: {}", statsDuration.toString());
+    LOG.info("duration (ms): {}", statsDuration.toString());
   }
 
 

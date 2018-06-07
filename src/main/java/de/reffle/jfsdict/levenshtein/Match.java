@@ -1,6 +1,6 @@
 package de.reffle.jfsdict.levenshtein;
 
-class Match {
+public class Match {
   public String match;
   public int levDistance;
   public int annotation;
